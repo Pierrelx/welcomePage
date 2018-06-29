@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/now-ui-kit.css">
+    <link rel="stylesheet" type="text/css" href="node_modules/bootstrap/dist/css/bootstrap.css">
+
+    <title>Awesome page</title>
+</head>
+<body>
+    <h1 class="text-center">Welcome to this awesome page !</h1>
+
+    <div class="rouen-weather align-middle">
+        <h3 class="text-center lead">Météo Rouen</h3>
+    </div>
+    <div class="havre-weather">
+        <h3 class="text-center lead align-middle">Météo Le Havre</h3>
+    </div>
+
+    <script class="date-template" type="x-tmpl-mustache">
+        <h3 class="text-center d-inline-block">{{date}}</h3>
+    </script>        
+
+    <script class="weather-template" id="weather-template" type="x-tmpl-mustache">
+    <div class="card d-inline-block" style="width: 9rem;">
+                <img class="card-img-top rounded mx-auto align-middle" style="width: 6rem;" src="{{imageUrl}}">
+                <div class="card-body">
+                    <h5 class="card-title">{{temperature}} °C</h5>
+                    <small class="card-text text-center">{{conditions}}</small>
+                    <p class="card-text text-center">À {{heure}}</p>
+                    <p class="card-text font-weight-light">{{cloudiness}}% de nuages</p>
+                </div>
+            </div>
+    </script>
+
+    <script src="node_modules/mustache/mustache.js"></script>
+    <script src="node_modules/jquery/dist/jquery.js"></script>
+    <script src="node_modules/moment/moment.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="js/weather.js"></script>
+    <!-- Clé api OpenWeatherMap: db8469307ef6946bebcee3833c4cb6b1-->
+    <!-- Adresse api api.openweathermap.org/data/2.5/forecast?q=Rouen,fr&mode=json&appid=db8469307ef6946bebcee3833c4cb6b1 -->
+    <!-- Tant que dt_txt != date actuelle + 1 jour on affiche la météo pour les heures disponble-->
+    <script type="text/javascript">
+
+    $(document).ready(function(){
+        
+        var weatherManager = new WeatherManager($('.rouen-weather'), $('.havre-weather'), $('.weather-template'));
+
+
+    });
+
+
+    </script>
+</body>
+</html>

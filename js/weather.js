@@ -11,6 +11,7 @@ var WeatherManager = function (rouenTableSelector, havreTableSelector, template)
     this._leHavre = "Le Havre";
     this._rouen = "Rouen";
     this._template = template;
+    this._apiKey = "db8469307ef6946bebcee3833c4cb6b1";
 
     var init = function(manager){
         manager.LoadWeatherData(self._rouen, function(){
@@ -29,12 +30,13 @@ var WeatherManager = function (rouenTableSelector, havreTableSelector, template)
 WeatherManager.prototype = {
 
     //Permet de charger les données météo pour une ville donnée
+    //Clé API:  db8469307ef6946bebcee3833c4cb6b1
     LoadWeatherData: function(city, callback){
 
         var self = this;
 
         $.ajax({
-            url: "http://api.openweathermap.org/data/2.5/forecast?q="+ city + ",fr&mode=json&appid=db8469307ef6946bebcee3833c4cb6b1",
+            url: "http://api.openweathermap.org/data/2.5/forecast?q="+ city + ",fr&mode=json&appid=" + this._apiKey,
             method: "GET", 
             error: function(error){
                 console.log(error);
@@ -52,11 +54,9 @@ WeatherManager.prototype = {
                     }                 
                 }
                 if(city === self._leHavre){
-                    self._havreWeatherData = dataToUse;
-                    console.log(self._havreWeatherData);}
+                    self._havreWeatherData = dataToUse;}
                 else if(city === self._rouen){
-                    self._rouenWeatherData = dataToUse;
-                    console.log(self._rouenWeatherData)}
+                    self._rouenWeatherData = dataToUse;}
 
                 callback();
             }
@@ -89,65 +89,130 @@ WeatherManager.prototype = {
 
     //Retourne les conditions météorologiques selon un id
     //Retourne un objet {cond: string, pic: string}
+    //Il faudrait essayer de trouver de meilleurs icônes et détailler les conditions
     GetsIconAndConditions: function(weatherId){
         switch(weatherId){
             case 200:
+                return {cond: "Orage avec pluie légère", pic: "http://openweathermap.org/img/w/11d.png"};
+                break;
             case 201:
-            case 202:
                 return {cond: "Orage avec pluie", pic: "http://openweathermap.org/img/w/11d.png"};
                 break;
+            case 202:
+                return {cond: "Orage avec forte pluie", pic: "http://openweathermap.org/img/w/11d.png"};
+                break;
             case 210:
+                return {cond: "Orage léger", pic: "http://openweathermap.org/img/w/11d.png"};
+                break;
             case 211:
-            case 212:
-            case 221:
                 return {cond: "Orage", pic: "http://openweathermap.org/img/w/11d.png"};
                 break;
-            case 230:
-            case 231: 
-            case 232:
-                return {cond: "Orage avec grêle", pic: "http://openweathermap.org/img/w/11d.png"};
+            case 212:
+                return {cond: "Gros orage", pic: "http://openweathermap.org/img/w/11d.png"};
                 break;
+            case 221:
+                return {cond: "Orage avec tempête", pic: "http://openweathermap.org/img/w/11d.png"};
+                break;
+            case 230:
+                return {cond: "Tempête avec grêlons légers", pic: "http://openweathermap.org/img/w/11d.png"};
+                break;
+            case 231:
+                return {cond: "Orage avec grêlons", pic: "http://openweathermap.org/img/w/11d.png"};
+                break; 
+            case 232:
+                return {cond: "Orage avec gros grêlons", pic: "http://openweathermap.org/img/w/11d.png"};
+                break;
+            //Bruine, pas pluie !!
             case 300:
+                return {cond: "Bruine très fine", pic: "http://openweathermap.org/img/w/09d.png"};
+                break;
             case 301:
+                return {cond: "Bruine fine", pic: "http://openweathermap.org/img/w/09d.png"};
+                break;
             case 302:
+                return {cond: "Bruine fine intense", pic: "http://openweathermap.org/img/w/09d.png"};
+                break;
             case 310:
+                return {cond: "Bruine fine et pluie légère", pic: "http://openweathermap.org/img/w/09d.png"};
+                break;
             case 311:
-                return {cond: "Crachin", pic: "http://openweathermap.org/img/w/09d.png"};
+                return {cond: "Pluie et bruine", pic: "http://openweathermap.org/img/w/09d.png"};
                 break;
             case 312:
+                return {cond: "Crachin intense", pic: "http://openweathermap.org/img/w/09d.png"};
+                break;
             case 313:
+                return {cond: "Pluie et crachin", pic: "http://openweathermap.org/img/w/09d.png"};
+                break;
             case 314:
+                return {cond: "Grosse pluie et crachin", pic: "http://openweathermap.org/img/w/09d.png"};
+                break;
             case 321:
+                return {cond: "Crachin intense", pic: "http://openweathermap.org/img/w/09d.png"};
+                break;
+
             case 500:
-            case 520:
-                return {cond: "Légère pluie", pic: "http://openweathermap.org/img/w/09d.png"};
+                return {cond: "Légère pluie", pic: "http://openweathermap.org/img/w/10d.png"};
                 break;
             case 501:
                 return {cond: "Pluie modérée", pic: "http://openweathermap.org/img/w/10d.png"};
                 break;
             case 502:
+                return {cond: "Pluie intense", pic: "http://openweathermap.org/img/w/10d.png"};
+                break;
             case 503:
+                return {cond: "Forte pluie", pic: "http://openweathermap.org/img/w/10.png"};
+                break;
             case 504:
+                return {cond: "Pluie extrême", pic: "http://openweathermap.org/img/w/10d.png"};
+                break;
+            case 511:
+                return {cond: "Pluie froide", pic: "http://openweathermap.org/img/w/13d.png"};
+                break; 
+            case 520:
+                return {cond: "Légère pluie", pic: "http://openweathermap.org/img/w/09d.png"};
+                break;
             case 521:
+                return {cond: "Pluie", pic: "http://openweathermap.org/img/w/09d.png"};
+                break;
             case 522:
+                return {cond: "Pluie intense", pic: "http://openweathermap.org/img/w/09d.png"};
+                break;
             case 531:
                 return {cond: "Fortes pluies", pic: "http://openweathermap.org/img/w/13d.png"};
                 break;
-            case 511:
-                return {cond: "Pluie froide", pic: "http://openweathermap.org/img/w/09d.png"};
-                break;  
+             
             case 600:
+                return {cond: "Neige légère", pic: "http://openweathermap.org/img/w/13d.png"};
+                break;
             case 601:
-            case 602:
-            case 611:
-            case 612:
-            case 615:
-            case 616:
-            case 620:
-            case 621:
-            case 622:
                 return {cond: "Neige", pic: "http://openweathermap.org/img/w/13d.png"};
                 break;
+            case 602:
+                return {cond: "Forte neige", pic: "http://openweathermap.org/img/w/13d.png"};
+                break;
+            case 611:
+                return {cond: "Neige fondue", pic: "http://openweathermap.org/img/w/13d.png"};
+                break;
+            case 612:
+                return {cond: "Neige fondue", pic: "http://openweathermap.org/img/w/13d.png"};
+                break;
+            case 615:
+                return {cond: "Pluie légère et neige", pic: "http://openweathermap.org/img/w/13d.png"};
+                break;
+            case 616:
+                return {cond: "Pluie et neige", pic: "http://openweathermap.org/img/w/13d.png"};
+                break;
+            case 620:
+                return {cond: "Neige légère", pic: "http://openweathermap.org/img/w/13d.png"};
+                break;
+            case 621:
+                return {cond: "Neige", pic: "http://openweathermap.org/img/w/13d.png"};
+                break;
+            case 622:
+                return {cond: "Forte neige", pic: "http://openweathermap.org/img/w/13d.png"};
+                break;
+
             case 701:
             case 711:
             case 721:
@@ -160,6 +225,7 @@ WeatherManager.prototype = {
             case 781:
                 return {cond: "Brume/Brouillard", pic: "http://openweathermap.org/img/w/50d.png"};
                 break;
+
             case 800:
                 return {cond: "Ciel dégagé", pic: "http://openweathermap.org/img/w/01d.png"};
                 break;
